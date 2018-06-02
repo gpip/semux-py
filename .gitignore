@@ -1,0 +1,9 @@
+build/
+dist/
+semux.egg-info/
+__pycache__/
+.pytest_cache/
+.coverage
+.tox
+*.pyc
+*.swp

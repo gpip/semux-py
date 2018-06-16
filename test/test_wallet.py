@@ -1,6 +1,10 @@
+import os
 import binascii
 
-from semux.wallet import bcrypt_derive
+from semux.wallet import bcrypt_derive, decode_wallet
+from semux.key import Key
+
+HERE = os.path.dirname(os.path.abspath(__file__))
 
 # bouncycastle test vectors
 TEST_VECTORS = [
@@ -25,6 +29,17 @@ TEST_VECTORS = [
 ]
 
 
+WALLET_V1_NOPWD = {
+    'version': 1,
+    'accounts': [{
+        'address': '0x83b9e57d516fa79df1e33e9056a77703937a6825',
+        'public': b'533a082ebe5ab09d0fc55d6ba1dc5be2a42455ab28af8822e26de1ec8cdf705e',
+        'private': None
+    }],
+    'aliases_raw': ''
+}
+
+
 def test_vectors():
     for entry in TEST_VECTORS:
         pwd = binascii.unhexlify(entry[0])
@@ -34,5 +49,19 @@ def test_vectors():
 
         # looks like bcrypt is supposed to chop off the last byte but
         # bouncycastle keeps it.
-        #assert bcrypt_derive(pwd, salt, cost)[:-1] == expected[:-1]
         assert bcrypt_derive(pwd, salt, cost) == expected
+
+
+def test_wallet_v1():
+    wfile = os.path.join(HERE, 'resource', 'wallet_v1')
+    decoded = decode_wallet(open(wfile, 'rb'))
+    assert decoded == WALLET_V1_NOPWD
+
+
+def test_wallet_v1_pwd():
+    wfile = os.path.join(HERE, 'resource', 'wallet_v1')
+    decoded = decode_wallet(open(wfile, 'rb'), b'password')
+
+    entry = decoded['accounts'][0]
+    assert isinstance(entry['private'], Key)
+    assert '0x%s' % (entry['private'].to_address().decode()) == entry['address']

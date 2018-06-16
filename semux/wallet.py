@@ -178,7 +178,7 @@ def _decode_account(f, key, version, has_pwd=True):
         if not privkey_pkcs8:
             raise ValueError('Failed to decrypt wallet key')
         privkey = Key.from_encoded_private(privkey_pkcs8)
-        if public_key and privkey.public != public_key:
+        if public_key and privkey.encoded_public != public_key:
             raise Exception('key mismatch, check your password')
     else:
         privkey = None

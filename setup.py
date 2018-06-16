@@ -6,7 +6,8 @@ setup(
     url='https://github.com/gpip/semux-py',
     packages=find_packages(),
     install_requires=[
-      'PyNaCl==1.2.1',
-      'pyblake2==1.1.2',
+        'bcrypt==3.1.4',
+        'PyNaCl==1.2.1',
+        'pyblake2==1.1.2',
     ]
 )

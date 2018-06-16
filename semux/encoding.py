@@ -2,8 +2,8 @@ __all__ = ["to_pkcs8", "from_pkcs8", "to_x509"]
 
 OID_OLD = 0x64
 OID_ED25519 = 0x70
-OID_BYTE = 0xb
-IDLEN_BYTE = 0x6
+OID_BYTE = 11
+IDLEN_BYTE = 6
 
 
 def to_pkcs8(data):

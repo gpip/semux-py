@@ -36,12 +36,12 @@ class SimpleDecoder:
     def readShort(self):
         i = self.index
         self.index += 2
-        return (data[i] & 0xFF) << 8 | (data[i+1] & 0xFF)
+        return (self.data[i] & 0xFF) << 8 | (self.data[i+1] & 0xFF)
 
     def readInt(self):
         i = self.index
         self.index += 4
-        return (data[i] << 24) | (data[i+1] & 0xFF) << 16 | (data[i+2] & 0xFF) << 8 | (data[i+3] & 0xFF)
+        return (self.data[i] << 24) | (self.data[i+1] & 0xFF) << 16 | (self.data[i+2] & 0xFF) << 8 | (self.data[i+3] & 0xFF)
 
     def readLong(self):
         i1 = int(self.readInt())
@@ -57,7 +57,7 @@ class SimpleDecoder:
     def readSize(self):
         size = 0
         for i in range(4):
-            b = data[self.index]
+            b = self.data[self.index]
             self.index += 1
 
             size = (size << 7 | (b & 0x7F ))
@@ -75,7 +75,7 @@ class SimpleDecoder:
         buf = bytearray(_len)
         i = self.index
         self.index += _len
-        buf = data[i:self.index]
+        buf = self.data[i:self.index]
         return buf
 
     def readIndex(self):

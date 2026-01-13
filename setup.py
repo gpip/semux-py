@@ -7,7 +7,7 @@ setup(
     packages=find_packages(),
     install_requires=[
         'bcrypt==3.1.4',
-        'PyNaCl==1.2.1',
+        'PyNaCl==1.6.2',
         'pyblake2==1.1.2',
     ]
 )
